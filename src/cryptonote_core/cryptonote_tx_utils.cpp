@@ -1282,6 +1282,7 @@ bool generate_genesis_block(block& bl, network_type nettype) {
             1,
             0);
     bl.invalidate_hashes();
+    std::cout<<cryptonote::obj_to_json_str(bl.miner_tx,true)<<std::endl;
     return true;
 }
 //---------------------------------------------------------------

@@ -337,13 +337,13 @@ namespace config {
     inline constexpr uint64_t HEIGHT_ESTIMATE_HEIGHT = 582088;
     inline constexpr time_t HEIGHT_ESTIMATE_TIMESTAMP = 1595359932;
 
-    inline constexpr uint64_t PUBLIC_ADDRESS_BASE58_PREFIX = 114;
+    inline constexpr uint64_t PUBLIC_ADDRESS_BASE58_PREFIX = 0x17;
     inline constexpr uint64_t PUBLIC_INTEGRATED_ADDRESS_BASE58_PREFIX = 115;
     inline constexpr uint64_t PUBLIC_SUBADDRESS_BASE58_PREFIX = 116;
-    inline constexpr uint16_t P2P_DEFAULT_PORT = 22022;
-    inline constexpr uint16_t RPC_DEFAULT_PORT = 22023;
-    inline constexpr uint16_t ZMQ_RPC_DEFAULT_PORT = 22024;
-    inline constexpr uint16_t QNET_DEFAULT_PORT = 22025;
+    inline constexpr uint16_t P2P_DEFAULT_PORT = 23122;
+    inline constexpr uint16_t RPC_DEFAULT_PORT = 23123;
+    inline constexpr uint16_t ZMQ_RPC_DEFAULT_PORT = 23124;
+    inline constexpr uint16_t QNET_DEFAULT_PORT = 23125;
     inline constexpr boost::uuids::uuid const NETWORK_ID = {
             {0x46,
              0x61,
@@ -356,16 +356,23 @@ namespace config {
              0x2a,
              0x4c,
              0x61,
-             0x75,
-             0x66,
-             0x65,
-             0x79}};  // Bender's nightmare
+             0x61,
+             0x64,
+             0x15,
+             0xbe,
+             }};  // Bender's nightmare
+//    inline constexpr std::string_view GENESIS_TX =
+//            "021e01ff000380808d93f5d771027c4fd4553bc9886f1f49e3f76d945bf71e8632a94e6c177b19cb"
+//            "c780e7e6bdb48080b4ccd4dfc60302c8b9f6461f58ef3f2107e577c7425d06af584a1c7482bf1906"
+//            "0e84059c98b4c3808088fccdbcc32302732b53b0b0db706fcc3087074fb4b786da5ab72b2065699f"
+//            "9453448b0db27f892101ed71f2ce3fc70d7b2036f8a4e4b3fb75c66c12184b55a908e7d1a1d69955"
+//            "66cf00"sv;
     inline constexpr std::string_view GENESIS_TX =
-            "021e01ff000380808d93f5d771027c4fd4553bc9886f1f49e3f76d945bf71e8632a94e6c177b19cb"
-            "c780e7e6bdb48080b4ccd4dfc60302c8b9f6461f58ef3f2107e577c7425d06af584a1c7482bf1906"
-            "0e84059c98b4c3808088fccdbcc32302732b53b0b0db706fcc3087074fb4b786da5ab72b2065699f"
-            "9453448b0db27f892101ed71f2ce3fc70d7b2036f8a4e4b3fb75c66c12184b55a908e7d1a1d69955"
-            "66cf00"sv;
+            "040200001e01ff000280c0e4ed8bfafd13021cbd5e405b3d9fbb03c4c09905d6c1757a8b3b23bee30c"
+            "fe45a0b74cd72c787b80c0e4ed8bfafd1302c56d9bc71f35cac53d55afca668cb7e1ca750fbaae80cfa1"
+            "6db111f45c8444f56301c2bb31a0ffb45894eac88ab839c1a14d7809c07a154293cc20dd7fa7bc511f5c"
+            "720000000000000000000000000000000000000000000000000000000000000000010039558eb515f21a"
+            "bdf427b52ea266e6aa9c6b4fdcf8ec7cabc94698c96cfa2a0000"sv;
     inline constexpr uint32_t GENESIS_NONCE = 1022201;
 
     inline constexpr uint64_t GOVERNANCE_REWARD_INTERVAL_IN_BLOCKS = 7 * cryptonote::BLOCKS_PER_DAY;

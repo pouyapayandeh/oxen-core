@@ -589,11 +589,12 @@ namespace nodetool
     }
     else
     {
-      full_addrs.insert("116.203.196.12:22022");  // Hetzner seed node
-      full_addrs.insert("185.150.191.32:22022");  // Jason's seed node
-      full_addrs.insert("199.127.60.6:22022");    // Oxen Foundation server "holstein"
-      full_addrs.insert("23.88.6.250:22022");     // Official Session open group server
-      full_addrs.insert("104.194.8.115:22000");   // Oxen Foundation server "brahman"
+      // full_addrs.insert("116.203.196.12:22022");  // Hetzner seed node
+      // full_addrs.insert("185.150.191.32:22022");  // Jason's seed node
+      // full_addrs.insert("199.127.60.6:22022");    // Oxen Foundation server "holstein"
+      // full_addrs.insert("23.88.6.250:22022");     // Official Session open group server
+      // full_addrs.insert("104.194.8.115:22000");   // Oxen Foundation server "brahman"
+      full_addrs.insert("11.22.33.44:23122"); 
     }
     return full_addrs;
   }

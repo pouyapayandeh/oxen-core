@@ -52,7 +52,7 @@ cmake-debug:
 	cd $(builddir)/debug && cmake -D CMAKE_BUILD_TYPE=Debug $(topdir)
 
 debug: cmake-debug
-	cd $(builddir)/debug && $(MAKE)
+	cd $(builddir)/debug && $(MAKE) -j4
 
 # Temporarily disable some tests:
 #  * libwallet_api_tests fail (Issue #895)

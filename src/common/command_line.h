@@ -314,6 +314,7 @@ inline bool has_arg(
 
 extern const arg_descriptor<bool> arg_help;
 extern const arg_descriptor<bool> arg_version;
+extern const arg_descriptor<bool> arg_print_genesis_tx;
 
 /// Returns the terminal width and height (in characters), if supported on this system and
 /// available.  Returns {0,0} if not available or could not be determined.

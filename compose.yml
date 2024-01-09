@@ -1,0 +1,27 @@
+version: '3.9'
+networks:
+  frontend:
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+services:
+  node1:
+    container_name: oxen-node1
+    networks:
+      frontend:
+        ipv4_address: 172.22.0.2
+    image: my-oxen
+    build:
+      dockerfile: MyDockerfile
+    tty: true
+    stdin_open: true
+    entrypoint: ["/bin/sh","-c","oxend --p2p-bind-ip=0.0.0.0 --rpc-bind-ip=0.0.0.0 --confirm-external-bind --allow-local-ip --seed-node 172.22.0.3"]
+  node2:
+    container_name: oxen-node2
+    networks:
+      frontend:
+        ipv4_address: 172.22.0.3
+    image: my-oxen
+    tty: true
+    stdin_open: true
+    entrypoint: ["/bin/sh","-c","oxend --p2p-bind-ip=0.0.0.0 --rpc-bind-ip=0.0.0.0 --confirm-external-bind --allow-local-ip --seed-node 172.22.0.2"]

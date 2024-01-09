@@ -1,0 +1,40 @@
+
+# runtime stage
+FROM ubuntu:22.04
+
+RUN set -ex && \
+    apt-get update && \
+    apt-get --no-install-recommends --yes install ca-certificates lsb-release build-essential cmake curl pkg-config libboost-all-dev libzmq3-dev libsodium-dev libunwind8-dev liblzma-dev libreadline6-dev doxygen graphviz libpgm-dev libsqlite3-dev libcurl4-openssl-dev
+
+RUN     set -ex && \
+        curl -so /etc/apt/trusted.gpg.d/oxen.gpg https://deb.oxen.io/pub.gpg && \
+        echo "deb https://deb.oxen.io $(lsb_release -sc) main" |  tee /etc/apt/sources.list.d/oxen.list && \
+        apt-get update && \
+        apt-get --no-install-recommends --yes install liboxenmq-dev && \
+        apt-get clean && \
+        rm -rf /var/lib/apt
+COPY build/Linux/fork-coin/debug/bin /usr/local/bin/
+#COPY build/Linux/fork-coin/debug/bin /usr/local/bin/
+# Create oxen user
+RUN adduser --system --group --disabled-password oxen && \
+	mkdir -p /wallet /home/oxen/.oxen && \
+	chown -R oxen:oxen /home/oxen/.oxen && \
+	chown -R oxen:oxen /wallet
+
+# Contains the blockchain
+VOLUME /home/oxen/.oxen
+
+# Generate your wallet via accessing the container and run:
+# cd /wallet
+# oxen-wallet-cli
+VOLUME /wallet
+
+EXPOSE 23122
+EXPOSE 23123
+EXPOSE 23124
+EXPOSE 23125
+
+# switch to user oxen
+USER oxen
+
+ENTRYPOINT ["oxend", "--p2p-bind-ip=0.0.0.0", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind","--allow-local-ip"]

@@ -594,7 +594,8 @@ namespace nodetool
       // full_addrs.insert("199.127.60.6:22022");    // Oxen Foundation server "holstein"
       // full_addrs.insert("23.88.6.250:22022");     // Official Session open group server
       // full_addrs.insert("104.194.8.115:22000");   // Oxen Foundation server "brahman"
-      full_addrs.insert("11.22.33.44:23122"); 
+      full_addrs.insert("116.203.49.0:23122");
+      full_addrs.insert("116.203.49.0:23122");
     }
     return full_addrs;
   }
@@ -1291,6 +1292,7 @@ namespace nodetool
       for (int step = 0; step < 2; ++step)
       {
         bool skip_duplicate_class_B = step == 0 && m_nettype == cryptonote::network_type::MAINNET;
+        skip_duplicate_class_B = false;
         size_t idx = 0, skipped = 0;
         zone.m_peerlist.foreach (use_white_list, [&classB, &filtered, &idx, &skipped, skip_duplicate_class_B, limit, next_needed_pruning_stripe](const peerlist_entry &pe){
           if (filtered.size() >= limit)

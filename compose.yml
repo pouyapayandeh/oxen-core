@@ -15,12 +15,34 @@ services:
       dockerfile: MyDockerfile
     tty: true
     stdin_open: true
-    entrypoint: ["/bin/sh","-c","oxend --p2p-bind-ip=0.0.0.0 --rpc-bind-ip=0.0.0.0 --confirm-external-bind --allow-local-ip --seed-node 172.22.0.3"]
+    entrypoint: ["/bin/sh","-c","oxend --p2p-bind-ip=0.0.0.0 --allow-local-ip --add-exclusive-node 172.22.0.3:23122 --add-exclusive-node 172.22.0.4:23122"]
   node2:
     container_name: oxen-node2
     networks:
       frontend:
         ipv4_address: 172.22.0.3
+    image: my-oxen
+    tty: true
+    stdin_open: true
+    entrypoint: ["/bin/sh","-c","oxend  --p2p-bind-ip=0.0.0.0 --allow-local-ip --add-exclusive-node 172.22.0.2:23122 --add-exclusive-node 172.22.0.4:23122"]
+  node3:
+    container_name: oxen-node3
+    networks:
+      frontend:
+        ipv4_address: 172.22.0.4
+    image: my-oxen
+    tty: true
+    stdin_open: true
+    entrypoint: ["/bin/sh","-c","oxend  --p2p-bind-ip=0.0.0.0 --allow-local-ip --add-exclusive-node 172.22.0.2:23122 --add-exclusive-node 172.22.0.3:23122"]
+  node-swarm:
+    deploy:
+      replicas: 0
+    depends_on:
+      - node2
+      - node1
+      - node3
+    networks:
+      - frontend
     image: my-oxen
     tty: true
     stdin_open: true

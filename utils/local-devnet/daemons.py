@@ -62,6 +62,8 @@ class RPCDaemon:
             verbose = False
         if self.proc and self.proc.poll() is None:
             raise RuntimeError("Cannot start process that is already running!")
+        print()
+        print(" ".join(self.arguments()))
         self.proc = subprocess.Popen(self.arguments(),
                 stdin=subprocess.DEVNULL, stdout=sout, stderr=subprocess.DEVNULL)
         self.terminated = False
@@ -132,7 +134,7 @@ class RPCDaemon:
 
 class Daemon(RPCDaemon):
     base_args = ('--dev-allow-local-ips', '--fixed-difficulty=1', '--devnet', '--non-interactive')
-
+    # base_args = ('--dev-allow-local-ips', '--fixed-difficulty=1','--testnet', '--non-interactive')
     def __init__(self, *,
             oxend='oxend',
             listen_ip=None, p2p_port=None, rpc_port=None, zmq_port=None, qnet_port=None, ss_port=None,
@@ -249,8 +251,9 @@ class Daemon(RPCDaemon):
 
 class Wallet(RPCDaemon):
     base_args = ('--disable-rpc-login', '--non-interactive', '--password','', '--devnet', '--disable-rpc-long-poll',
+#  '--daemon-ssl=disabled')
+    # base_args = ('--disable-rpc-login', '--non-interactive', '--password','','--testnet', '--disable-rpc-long-poll',
  '--daemon-ssl=disabled')
-
     def __init__(
             self,
             node,
@@ -368,6 +371,7 @@ class Wallet(RPCDaemon):
             "staking_requirement": 100000000000
         }).json()
         if 'error' in r:
+            print(r)
             raise RuntimeError("Registration cmd generation failed: {}".format(r['error']['message']))
         cmd = r['result']['registration_cmd']
         r = self.json_rpc("register_service_node", {"register_service_node_str": cmd}).json()

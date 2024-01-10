@@ -594,8 +594,8 @@ namespace nodetool
       // full_addrs.insert("199.127.60.6:22022");    // Oxen Foundation server "holstein"
       // full_addrs.insert("23.88.6.250:22022");     // Official Session open group server
       // full_addrs.insert("104.194.8.115:22000");   // Oxen Foundation server "brahman"
-      full_addrs.insert("116.203.49.0:23122");
-      full_addrs.insert("116.203.49.0:23122");
+      full_addrs.insert("172.22.0.2:23122");
+//      full_addrs.insert("116.203.49.0:23122");
     }
     return full_addrs;
   }

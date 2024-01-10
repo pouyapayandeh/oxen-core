@@ -46,7 +46,7 @@ def vprint(*args, timestamp=True, **kwargs):
 
 
 class SNNetwork:
-    def __init__(self, datadir, *, binpath='../../build/bin', sns=12, nodes=3):
+    def __init__(self, datadir, *, binpath='/home/pouya/projects/sarbazi/oxen-core/build/Linux/fork-coin/debug/bin', sns=12, nodes=3):
         self.datadir = datadir
         if not os.path.exists(self.datadir):
             os.makedirs(self.datadir)

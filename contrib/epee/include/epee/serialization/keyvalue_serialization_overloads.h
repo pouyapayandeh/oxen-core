@@ -35,6 +35,7 @@
 #include <array>
 #include "../span.h"
 #include "../storages/portable_storage_base.h"
+#include <optional>
 
 #undef LOKI_DEFAULT_LOG_CATEGORY
 #define LOKI_DEFAULT_LOG_CATEGORY "serialization"

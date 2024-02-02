@@ -75,6 +75,9 @@ static constexpr std::array devnet_hard_forks =
   hard_fork{ 13, 0,     4,  1599848400 }, 
   hard_fork{ 15, 0,     5,  1599848400 },
   hard_fork{ 16, 0,    99,  1599848400 },
+  hard_fork{ 17, 0,    120,  1599848400 },
+  hard_fork{ 18, 0,    140,  1599848400 },
+  hard_fork{ 18, 1,    200,  1599848400 },
 };
 
 

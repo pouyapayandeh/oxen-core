@@ -290,9 +290,9 @@ namespace config
   {
     inline constexpr uint64_t HEIGHT_ESTIMATE_HEIGHT = 0;
     inline constexpr time_t HEIGHT_ESTIMATE_TIMESTAMP = 1597170000;
-    inline constexpr uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = 3930; // ~ dV1 .. dV3
-    inline constexpr uint64_t CRYPTONOTE_PUBLIC_INTEGRATED_ADDRESS_BASE58_PREFIX = 4442; // ~ dVA .. dVC
-    inline constexpr uint64_t CRYPTONOTE_PUBLIC_SUBADDRESS_BASE58_PREFIX = 5850; // ~dVa .. dVc
+    inline constexpr uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = 29445; // ~ dV1 .. dV3
+    inline constexpr uint64_t CRYPTONOTE_PUBLIC_INTEGRATED_ADDRESS_BASE58_PREFIX = 29446; // ~ dVA .. dVC
+    inline constexpr uint64_t CRYPTONOTE_PUBLIC_SUBADDRESS_BASE58_PREFIX = 29447; // ~dVa .. dVc
     inline constexpr uint16_t P2P_DEFAULT_PORT = 38856;
     inline constexpr uint16_t RPC_DEFAULT_PORT = 38857;
     inline constexpr uint16_t ZMQ_RPC_DEFAULT_PORT = 38858;
@@ -300,14 +300,14 @@ namespace config
     inline constexpr boost::uuids::uuid const NETWORK_ID = { {
         0xa9, 0xf7, 0x5c, 0x7d, 0x55, 0x17, 0xcb, 0x6b, 0x5b, 0xf4, 0x63, 0x79, 0x7a, 0x57, 0xab, 0xd3
       } };
-    inline constexpr std::string_view GENESIS_TX = "04011e1e01ff00018080c9db97f4fb2702fa27e905f604faa4eb084ee675faca77b0cfea9adec1526da33cae5e286f31624201dae05bf3fa1662b7fd373c92426763d921cf3745e10ee43edb510f690c656f247200000000000000000000000000000000000000000000000000000000000000000000"sv;
+    inline constexpr std::string_view GENESIS_TX = "021e01ff00018080c9db97f4fb2702f41b1c0909b6a138544daf78d84ce9f312ed1dd8164002a2d79608e4c7d67f386301a256a5bc00c26c2c7716ed50cdede4dc6d0a80f889aa6203d2d275eee332a95e72000000000000000000000000000000000000000000000000000000000000000001b6606db68720f3bc299fdc60c2f6b1f74ae5f19b09960b151a7bc3625de936c200"sv;
     inline constexpr uint32_t GENESIS_NONCE = 12345;
 
     inline constexpr uint64_t GOVERNANCE_REWARD_INTERVAL_IN_BLOCKS = BLOCKS_EXPECTED_IN_DAYS(7);
     inline constexpr std::array GOVERNANCE_WALLET_ADDRESS =
     {
-      "dV3EhSE1xXgSzswBgVioqFNTfcqGopvTrcYjs4YDLHUfU64DuHxFoEmbwoyipTidGiTXx5EuYdgzZhDLMTo9uEv82M4A7Uimp"sv, // hardfork v7-9
-      "dV3EhSE1xXgSzswBgVioqFNTfcqGopvTrcYjs4YDLHUfU64DuHxFoEmbwoyipTidGiTXx5EuYdgzZhDLMTo9uEv82M4A7Uimp"sv, // hardfork v10
+      "PPz12uifSSiSZwwQZpX387jKxLMkrsSXHaAogTZkJZo1Ki8jVwEWuaqcaR7tng64KA81KhkuFADdeGxuYGck4r614pzCLiqLPW"sv, // hardfork v7-9
+      "PPz19RFpYpFjLVNV6foAgiVbZieN4zs6AEzCcnStUViLXHakFQhxv844Jx97qzNBi2AnTSxKi7Aeo7uKUjDkN93a136KeJm11W"sv, // hardfork v10
     };
 
     inline constexpr auto UPTIME_PROOF_STARTUP_DELAY = 5s;

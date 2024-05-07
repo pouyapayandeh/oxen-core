@@ -62,7 +62,7 @@ namespace {
   constexpr auto CYAN = "\033[36;1m";
 }
 
-
+void print_genesis_tx_hex(uint8_t nettype);
 int main(int argc, char const * argv[])
 {
   bool logs_initialized = false;
@@ -87,7 +87,7 @@ int main(int argc, char const * argv[])
       command_line::add_arg(visible_options, command_line::arg_help);
       command_line::add_arg(visible_options, command_line::arg_version);
       command_line::add_arg(visible_options, daemon_args::arg_config_file);
-
+      command_line::add_arg(visible_options,command_line::arg_print_genesis_tx);
       // Settings
       command_line::add_arg(core_settings, daemon_args::arg_log_file);
       command_line::add_arg(core_settings, daemon_args::arg_log_level);
@@ -137,7 +137,10 @@ int main(int argc, char const * argv[])
       std::cout << CYAN << "Oxen '" << OXEN_RELEASE_NAME << "' (v" << OXEN_VERSION_FULL << ")" << RESET << "\n\n";
       return 0;
     }
-
+    if (command_line::get_arg(vm, command_line::arg_print_genesis_tx)) {
+            print_genesis_tx_hex(2);
+            return 0;
+    }
     std::optional<fs::path> load_config;
 
     if (command_line::is_arg_defaulted(vm, daemon_args::arg_config_file)) {
@@ -369,4 +372,121 @@ int main(int argc, char const * argv[])
       std::cerr << RED << "Exception in main! (unknown exception type)" << RESET << "\n";
   }
   return 1;
+}
+void save_account_data(std::string name,cryptonote::account_base& miner_acc1,uint8_t nettype){
+    using namespace cryptonote;
+    std::cout << "Gennerating miner wallet..." << std::endl;
+    std::cout << "Miner account address:" << std::endl;
+    std::cout << cryptonote::get_account_address_as_str((network_type)nettype, false, miner_acc1.get_keys().m_account_address);
+    std::cout << std::endl << "Miner spend secret key:"  << std::endl;
+    std::cout << tools::type_to_hex(miner_acc1.get_keys().m_spend_secret_key);
+    std::cout << std::endl << "Miner view secret key:" << std::endl;
+    std::cout << tools::type_to_hex(miner_acc1.get_keys().m_view_secret_key);
+    std::cout << std::endl << std::endl;
+
+
+    //Create file with miner keys information
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::stringstream key_fine_name_ss;
+    key_fine_name_ss << "./" <<name<< std::put_time(&tm, "%Y%m%d%H%M%S") << ".dat";
+    std::string key_file_name = key_fine_name_ss.str();
+    std::ofstream miner_key_file;
+    miner_key_file.open (key_file_name);
+    miner_key_file << "Miner account address:" << std::endl;
+    miner_key_file << cryptonote::get_account_address_as_str((network_type)nettype, false, miner_acc1.get_keys().m_account_address);
+    miner_key_file << std::endl<< "Miner spend secret key:"  << std::endl;
+    miner_key_file << tools::type_to_hex(miner_acc1.get_keys().m_spend_secret_key);
+    //    epee::to_hex::formatted(miner_key_file, epee::as_byte_span(miner_acc1.get_keys().m_spend_secret_key));
+    miner_key_file << std::endl << "Miner view secret key:" << std::endl;
+    miner_key_file << tools::type_to_hex(miner_acc1.get_keys().m_view_secret_key);
+    //    epee::to_hex::formatted(miner_key_file, epee::as_byte_span(miner_acc1.get_keys().m_view_secret_key));
+    miner_key_file << std::endl << std::endl;
+    miner_key_file.close();
+}
+static crypto::public_key
+get_output_key(const cryptonote::keypair &txkey, const cryptonote::account_public_address &addr, size_t output_index)
+{
+    crypto::key_derivation derivation;
+    crypto::generate_key_derivation(addr.m_view_public_key, txkey.sec, derivation);
+    crypto::public_key out_eph_public_key;
+    crypto::derive_public_key(derivation, output_index, addr.m_spend_public_key, out_eph_public_key);
+    return out_eph_public_key;
+}
+void print_genesis_tx_hex(uint8_t nettype) {
+
+
+    using namespace cryptonote;
+
+
+    account_base miner_acc1;
+    miner_acc1.generate();
+    save_account_data("acc1",miner_acc1,nettype);
+
+
+    account_base miner_acc2;
+    miner_acc2.generate();
+    save_account_data("acc2",miner_acc2,nettype);
+
+
+    account_base miner_acc3;
+    miner_acc3.generate();
+    save_account_data("acc3",miner_acc1,nettype);
+    //Prepare genesis_tx
+    cryptonote::transaction tx_genesis;
+    cryptonote::transaction tx_orginal;
+//    cryptonote::construct_miner_tx(0, 0, 0, 10, 0, miner_acc1.get_keys().m_account_address, tx_genesis);
+    // std::vector<batch_sn_payment> snp;
+//    snp.push_back(cryptonote::batch_sn_payment())
+    keypair txkey{hw::get_device("default")};
+
+
+    auto result = construct_miner_tx(0, 0, 0, 10, 0, tx_genesis,
+                       cryptonote::oxen_miner_tx_context::miner_block(network_type::DEVNET,
+                                                                      miner_acc1.get_keys().m_account_address),
+                       {},7);
+    add_tx_extra<tx_extra_pub_key>(tx_genesis, txkey.pub);
+    tx_genesis.output_unlock_times.push_back(0);
+    tx_genesis.output_unlock_times.push_back(0);
+//    const auto miner_reward = block_reward / 2;
+
+
+    /// miner reward
+//    tx_genesis.vout.push_back({miner_reward, get_output_key(txkey, miner_acc1.get_keys().m_account_address, 0)});
+
+
+    /// extra reward
+//    tx_genesis.vout.push_back({miner_reward, get_output_key(txkey, miner_acc2.get_keys().m_account_address, 1)});
+
+
+    std::cout << "Object:" << std::endl;
+    std::cout << obj_to_json_str(tx_genesis,true) << std::endl << std::endl;
+
+
+//    std::cout << to_string(tx_genesis) << std::endl << std::endl;
+    std::stringstream ss;
+    serialization::binary_archiver ba(ss);
+    ::serialization::serialize(ba, tx_genesis);
+    std::string tx_hex = ss.str();
+    std::cout << "Insert this line into your coin configuration file: " << std::endl;
+    tx_hex = oxenmq::to_hex(cryptonote::tx_to_blob(tx_genesis));
+    std::cout << "std::string const GENESIS_TX = \"" << tx_hex << "\";" << std::endl;
+
+
+//    const auto& conf = get_config((network_type)nettype);
+//    std::string tx_bl = oxenc::from_hex(conf.GENESIS_TX);
+//    bool r = parse_and_validate_tx_from_blob(tx_bl, tx_orginal);
+//    std::cout << obj_to_json_str(tx_orginal,true) << std::endl << std::endl;
+//
+//    tx_destination_entry td;
+//    td.addr = miner_acc1.get_keys().m_account_address;
+//    td.amount = 30000000000000000;
+//    std::vector<tx_destination_entry> destinations;
+//    destinations.push_back(td);
+//
+//    transaction tx;
+//    bool r = construct_tx(miner_accounts[0].get_keys(), sources, destinations, std::nullopt, std::vector<uint8_t>(), tx, 0);
+
+
+    return;
 }
